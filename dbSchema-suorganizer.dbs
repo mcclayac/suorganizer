@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Sqlite-suorganizer" id="Project_45a3c80" template="Default" database="Sqlite" >
+	<schema name="Default" schemaname="Default" >
+		<table name="auth_group" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="80" jt="12" mandatory="y" />
+			<index name="pk_auth_group" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="sqlite_autoindex_auth_group_1" unique="UNIQUE" >
+				<column name="name" />
+			</index>
+		</table>
+		<table name="auth_group_permissions" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="group_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="permission_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<index name="pk_auth_group_permissions" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="auth_group_permissions_permission_id_84c5c92e" unique="NORMAL" >
+				<column name="permission_id" />
+			</index>
+			<index name="auth_group_permissions_group_id_b120cbf9" unique="NORMAL" >
+				<column name="group_id" />
+			</index>
+			<index name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq" unique="UNIQUE" >
+				<column name="group_id" />
+				<column name="permission_id" />
+			</index>
+			<fk name="Fk_auth_group_permissions" to_schema="Default" to_table="auth_group" >
+				<fk_column name="group_id" pk="id" />
+			</fk>
+			<fk name="Fk_auth_group_permissions" to_schema="Default" to_table="auth_permission" >
+				<fk_column name="permission_id" pk="id" />
+			</fk>
+		</table>
+		<table name="auth_permission" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="content_type_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="codename" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="name" type="varchar" length="255" jt="12" mandatory="y" />
+			<index name="pk_auth_permission" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="auth_permission_content_type_id_2f476e4b" unique="NORMAL" >
+				<column name="content_type_id" />
+			</index>
+			<index name="auth_permission_content_type_id_codename_01ab375a_uniq" unique="UNIQUE" >
+				<column name="content_type_id" />
+				<column name="codename" />
+			</index>
+			<fk name="Fk_auth_permission" to_schema="Default" to_table="django_content_type" >
+				<fk_column name="content_type_id" pk="id" />
+			</fk>
+		</table>
+		<table name="auth_user" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="password" type="varchar" length="128" jt="12" mandatory="y" />
+			<column name="last_login" type="datetime" length="2000000000" decimal="10" jt="93" />
+			<column name="is_superuser" type="boolean" length="2000000000" decimal="10" jt="-7" mandatory="y" />
+			<column name="first_name" type="varchar" length="30" jt="12" mandatory="y" />
+			<column name="last_name" type="varchar" length="30" jt="12" mandatory="y" />
+			<column name="email" type="varchar" length="254" jt="12" mandatory="y" />
+			<column name="is_staff" type="boolean" length="2000000000" decimal="10" jt="-7" mandatory="y" />
+			<column name="is_active" type="boolean" length="2000000000" decimal="10" jt="-7" mandatory="y" />
+			<column name="date_joined" type="datetime" length="2000000000" decimal="10" jt="93" mandatory="y" />
+			<column name="username" type="varchar" length="150" jt="12" mandatory="y" />
+			<index name="pk_auth_user" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="sqlite_autoindex_auth_user_1" unique="UNIQUE" >
+				<column name="username" />
+			</index>
+		</table>
+		<table name="auth_user_groups" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="user_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="group_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<index name="pk_auth_user_groups" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="auth_user_groups_group_id_97559544" unique="NORMAL" >
+				<column name="group_id" />
+			</index>
+			<index name="auth_user_groups_user_id_6a12ed8b" unique="NORMAL" >
+				<column name="user_id" />
+			</index>
+			<index name="auth_user_groups_user_id_group_id_94350c0c_uniq" unique="UNIQUE" >
+				<column name="user_id" />
+				<column name="group_id" />
+			</index>
+			<fk name="Fk_auth_user_groups" to_schema="Default" to_table="auth_group" >
+				<fk_column name="group_id" pk="id" />
+			</fk>
+			<fk name="Fk_auth_user_groups" to_schema="Default" to_table="auth_user" >
+				<fk_column name="user_id" pk="id" />
+			</fk>
+		</table>
+		<table name="auth_user_user_permissions" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="user_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="permission_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<index name="pk_auth_user_user_permissions" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="auth_user_user_permissions_permission_id_1fbb5f2c" unique="NORMAL" >
+				<column name="permission_id" />
+			</index>
+			<index name="auth_user_user_permissions_user_id_a95ead1b" unique="NORMAL" >
+				<column name="user_id" />
+			</index>
+			<index name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq" unique="UNIQUE" >
+				<column name="user_id" />
+				<column name="permission_id" />
+			</index>
+			<fk name="Fk_auth_user_user_permissions" to_schema="Default" to_table="auth_permission" >
+				<fk_column name="permission_id" pk="id" />
+			</fk>
+			<fk name="Fk_auth_user_user_permissions" to_schema="Default" to_table="auth_user" >
+				<fk_column name="user_id" pk="id" />
+			</fk>
+		</table>
+		<table name="blog_post" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="title" type="varchar" length="63" jt="12" mandatory="y" />
+			<column name="slug" type="varchar" length="63" jt="12" mandatory="y" />
+			<column name="text" type="text" length="2000000000" decimal="10" jt="-1" mandatory="y" />
+			<column name="pub_date" type="date" length="2000000000" decimal="10" jt="91" mandatory="y" />
+			<index name="pk_blog_post" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="blog_post_slug_b95473f2" unique="NORMAL" >
+				<column name="slug" />
+			</index>
+		</table>
+		<table name="blog_post_startups" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="post_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="startup_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<index name="pk_blog_post_startups" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="blog_post_startups_startup_id_a3e30c05" unique="NORMAL" >
+				<column name="startup_id" />
+			</index>
+			<index name="blog_post_startups_post_id_b1153755" unique="NORMAL" >
+				<column name="post_id" />
+			</index>
+			<index name="blog_post_startups_post_id_startup_id_459561f9_uniq" unique="UNIQUE" >
+				<column name="post_id" />
+				<column name="startup_id" />
+			</index>
+			<fk name="Fk_blog_post_startups" to_schema="Default" to_table="blog_post" >
+				<fk_column name="post_id" pk="id" />
+			</fk>
+			<fk name="Fk_blog_post_startups" to_schema="Default" to_table="organizer_startup" >
+				<fk_column name="startup_id" pk="id" />
+			</fk>
+		</table>
+		<table name="blog_post_tags" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="post_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="tag_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<index name="pk_blog_post_tags" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="blog_post_tags_tag_id_0875c551" unique="NORMAL" >
+				<column name="tag_id" />
+			</index>
+			<index name="blog_post_tags_post_id_a1c71c8a" unique="NORMAL" >
+				<column name="post_id" />
+			</index>
+			<index name="blog_post_tags_post_id_tag_id_4925ec37_uniq" unique="UNIQUE" >
+				<column name="post_id" />
+				<column name="tag_id" />
+			</index>
+			<fk name="Fk_blog_post_tags" to_schema="Default" to_table="blog_post" >
+				<fk_column name="post_id" pk="id" />
+			</fk>
+			<fk name="Fk_blog_post_tags" to_schema="Default" to_table="organizer_tag" >
+				<fk_column name="tag_id" pk="id" />
+			</fk>
+		</table>
+		<table name="django_admin_log" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="object_id" type="text" length="2000000000" decimal="10" jt="-1" />
+			<column name="object_repr" type="varchar" length="200" jt="12" mandatory="y" />
+			<column name="action_flag" type="smallint unsigned" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="change_message" type="text" length="2000000000" decimal="10" jt="-1" mandatory="y" />
+			<column name="content_type_id" type="integer" length="2000000000" decimal="10" jt="4" />
+			<column name="user_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="action_time" type="datetime" length="2000000000" decimal="10" jt="93" mandatory="y" />
+			<index name="pk_django_admin_log" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="django_admin_log_user_id_c564eba6" unique="NORMAL" >
+				<column name="user_id" />
+			</index>
+			<index name="django_admin_log_content_type_id_c4bce8eb" unique="NORMAL" >
+				<column name="content_type_id" />
+			</index>
+			<fk name="Fk_django_admin_log" to_schema="Default" to_table="auth_user" >
+				<fk_column name="user_id" pk="id" />
+			</fk>
+			<fk name="Fk_django_admin_log" to_schema="Default" to_table="django_content_type" >
+				<fk_column name="content_type_id" pk="id" />
+			</fk>
+		</table>
+		<table name="django_content_type" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="app_label" type="varchar" length="100" jt="12" mandatory="y" />
+			<column name="model" type="varchar" length="100" jt="12" mandatory="y" />
+			<index name="pk_django_content_type" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="django_content_type_app_label_model_76bd3d3b_uniq" unique="UNIQUE" >
+				<column name="app_label" />
+				<column name="model" />
+			</index>
+		</table>
+		<table name="django_migrations" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="app" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="name" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="applied" type="datetime" length="2000000000" decimal="10" jt="93" mandatory="y" />
+			<index name="pk_django_migrations" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="django_session" >
+			<column name="session_key" type="varchar" length="40" jt="12" mandatory="y" />
+			<column name="session_data" type="text" length="2000000000" decimal="10" jt="-1" mandatory="y" />
+			<column name="expire_date" type="datetime" length="2000000000" decimal="10" jt="93" mandatory="y" />
+			<index name="pk_django_session" unique="PRIMARY_KEY" >
+				<column name="session_key" />
+			</index>
+			<index name="django_session_expire_date_a5c62663" unique="NORMAL" >
+				<column name="expire_date" />
+			</index>
+		</table>
+		<table name="organizer_newslink" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="title" type="varchar" length="63" jt="12" mandatory="y" />
+			<column name="pub_date" type="date" length="2000000000" decimal="10" jt="91" mandatory="y" />
+			<column name="link" type="varchar" length="255" jt="12" mandatory="y" />
+			<column name="startup_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<index name="pk_organizer_newslink" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="organizer_newslink_startup_id_ad247707" unique="NORMAL" >
+				<column name="startup_id" />
+			</index>
+			<fk name="Fk_organizer_newslink" to_schema="Default" to_table="organizer_startup" >
+				<fk_column name="startup_id" pk="id" />
+			</fk>
+		</table>
+		<table name="organizer_startup" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="31" jt="12" mandatory="y" />
+			<column name="slug" type="varchar" length="31" jt="12" mandatory="y" />
+			<column name="description" type="text" length="2000000000" decimal="10" jt="-1" mandatory="y" />
+			<column name="founded_date" type="date" length="2000000000" decimal="10" jt="91" mandatory="y" />
+			<column name="contact" type="varchar" length="254" jt="12" mandatory="y" />
+			<column name="website" type="varchar" length="255" jt="12" mandatory="y" />
+			<index name="pk_organizer_startup" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="organizer_startup_name_0080733f" unique="NORMAL" >
+				<column name="name" />
+			</index>
+			<index name="sqlite_autoindex_organizer_startup_1" unique="UNIQUE" >
+				<column name="slug" />
+			</index>
+		</table>
+		<table name="organizer_startup_tags" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="startup_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="tag_id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<index name="pk_organizer_startup_tags" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="organizer_startup_tags_tag_id_bcc66000" unique="NORMAL" >
+				<column name="tag_id" />
+			</index>
+			<index name="organizer_startup_tags_startup_id_94e79a84" unique="NORMAL" >
+				<column name="startup_id" />
+			</index>
+			<index name="organizer_startup_tags_startup_id_tag_id_982c6d9a_uniq" unique="UNIQUE" >
+				<column name="startup_id" />
+				<column name="tag_id" />
+			</index>
+			<fk name="Fk_organizer_startup_tags" to_schema="Default" to_table="organizer_startup" >
+				<fk_column name="startup_id" pk="id" />
+			</fk>
+			<fk name="Fk_organizer_startup_tags" to_schema="Default" to_table="organizer_tag" >
+				<fk_column name="tag_id" pk="id" />
+			</fk>
+		</table>
+		<table name="organizer_tag" >
+			<column name="id" type="integer" length="2000000000" decimal="10" jt="4" mandatory="y" />
+			<column name="name" type="varchar" length="31" jt="12" mandatory="y" />
+			<column name="slug" type="varchar" length="21" jt="12" mandatory="y" />
+			<index name="pk_organizer_tag" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="sqlite_autoindex_organizer_tag_2" unique="UNIQUE" >
+				<column name="slug" />
+			</index>
+			<index name="sqlite_autoindex_organizer_tag_1" unique="UNIQUE" >
+				<column name="name" />
+			</index>
+		</table>
+		<table name="sqlite_sequence" >
+			<column name="name" type="set" length="2000000000" decimal="10" jt="12" />
+			<column name="seq" type="set" length="2000000000" decimal="10" jt="12" />
+		</table>
+	</schema>
+	<connector name="Sqlite-suorganizer" database="Sqlite" driver_class="org.sqlite.JDBC" driver_jar="sqlite-jdbc-3.18.0.jar" driver_desc="Standard" host="localhost" port="7210" instance="/mcclayac/pythoncode/suorganizer/db.sqlite3" />
+	<layout name="Default Layout" id="Layout_49395de" joined_routing="y" show_relation="columns" >
+		<entity schema="Default" name="auth_group" color="bfd4f5" x="1216" y="96" />
+		<entity schema="Default" name="auth_group_permissions" color="bfd4f5" x="1216" y="384" />
+		<entity schema="Default" name="auth_user" color="bfd4f5" x="1040" y="96" />
+		<entity schema="Default" name="auth_user_groups" color="bfd4f5" x="1040" y="384" />
+		<entity schema="Default" name="django_content_type" color="c8f5bf" x="784" y="752" />
+		<entity schema="Default" name="django_admin_log" color="d2bff5" x="1248" y="512" />
+		<entity schema="Default" name="auth_permission" color="c8f5bf" x="592" y="576" />
+		<entity schema="Default" name="auth_user_user_permissions" color="c8f5bf" x="784" y="576" />
+		<entity schema="Default" name="django_session" color="bfbff5" x="1280" y="256" />
+		<entity schema="Default" name="django_migrations" color="bfbff5" x="1312" y="80" />
+		<entity schema="Default" name="sqlite_sequence" color="bfbff5" x="1248" y="720" />
+		<entity schema="Default" name="organizer_tag" color="f5ddbf" x="48" y="48" />
+		<entity schema="Default" name="organizer_newslink" color="bfbff5" x="800" y="64" />
+		<entity schema="Default" name="organizer_startup" color="d2bff5" x="592" y="48" />
+		<entity schema="Default" name="organizer_startup_tags" color="d2bff5" x="368" y="48" />
+		<entity schema="Default" name="blog_post_startups" color="f5ddbf" x="592" y="288" />
+		<entity schema="Default" name="blog_post" color="f5ddbf" x="368" y="256" />
+		<entity schema="Default" name="blog_post_tags" color="f5ddbf" x="192" y="240" />
+	</layout>
+	<layout name="Sample Layout with Groups" id="Layout_3fa9063" joined_routing="y" show_relation="columns" >
+		<entity schema="Default" name="auth_group" color="bfd4f5" x="1264" y="80" />
+		<entity schema="Default" name="auth_group_permissions" color="bfd4f5" x="1264" y="368" />
+		<entity schema="Default" name="auth_permission" color="c8f5bf" x="1056" y="560" />
+		<entity schema="Default" name="auth_user" color="bfd4f5" x="1088" y="80" />
+		<entity schema="Default" name="auth_user_groups" color="bfd4f5" x="1088" y="368" />
+		<entity schema="Default" name="auth_user_user_permissions" color="c8f5bf" x="1248" y="560" />
+		<entity schema="Default" name="blog_post" color="f5ddbf" x="64" y="464" />
+		<entity schema="Default" name="blog_post_startups" color="f5ddbf" x="224" y="464" />
+		<entity schema="Default" name="blog_post_tags" color="f5ddbf" x="224" y="656" />
+		<entity schema="Default" name="django_admin_log" color="d2bff5" x="864" y="80" />
+		<entity schema="Default" name="django_content_type" color="c8f5bf" x="1248" y="736" />
+		<entity schema="Default" name="django_migrations" color="bfbff5" x="240" y="80" />
+		<entity schema="Default" name="django_session" color="bfbff5" x="240" y="272" />
+		<entity schema="Default" name="organizer_startup" color="d2bff5" x="688" y="80" />
+		<entity schema="Default" name="organizer_startup_tags" color="d2bff5" x="480" y="304" />
+		<entity schema="Default" name="organizer_tag" color="f5ddbf" x="64" y="656" />
+		<entity schema="Default" name="sqlite_sequence" color="bfbff5" x="48" y="272" />
+		<entity schema="Default" name="organizer_newslink" color="bfbff5" x="80" y="96" />
+		<group name="organizer_startup" color="f0ecf7" >
+			<entity schema="Default" name="organizer_startup" />
+			<entity schema="Default" name="django_admin_log" />
+			<entity schema="Default" name="organizer_startup_tags" />
+		</group>
+		<group name="auth_user" color="ecf0f7" >
+			<entity schema="Default" name="auth_user" />
+			<entity schema="Default" name="auth_group" />
+			<entity schema="Default" name="auth_group_permissions" />
+			<entity schema="Default" name="auth_user_groups" />
+		</group>
+		<group name="auth_permission" color="eef7ec" >
+			<entity schema="Default" name="auth_permission" />
+			<entity schema="Default" name="auth_user_user_permissions" />
+			<entity schema="Default" name="django_content_type" />
+		</group>
+		<group name="blog_post" color="f7f3ec" >
+			<entity schema="Default" name="blog_post" />
+			<entity schema="Default" name="blog_post_startups" />
+			<entity schema="Default" name="blog_post_tags" />
+			<entity schema="Default" name="organizer_tag" />
+		</group>
+		<group name="organizer_newslink" color="ececf7" >
+			<entity schema="Default" name="organizer_newslink" />
+			<entity schema="Default" name="django_migrations" />
+			<entity schema="Default" name="django_session" />
+			<entity schema="Default" name="sqlite_sequence" />
+		</group>
+	</layout>
+	<layout name="Sample Layout with Relational Data Browse" id="Layout_51e738" joined_routing="y" show_relation="columns" >
+		<entity schema="Default" name="auth_group" color="bfd4f5" x="1232" y="48" />
+		<entity schema="Default" name="auth_group_permissions" color="bfd4f5" x="1232" y="336" />
+		<entity schema="Default" name="auth_permission" color="c8f5bf" x="448" y="480" />
+		<entity schema="Default" name="auth_user" color="bfd4f5" x="1056" y="48" />
+		<entity schema="Default" name="auth_user_groups" color="bfd4f5" x="1056" y="336" />
+		<entity schema="Default" name="auth_user_user_permissions" color="c8f5bf" x="640" y="480" />
+		<entity schema="Default" name="blog_post" color="f5ddbf" x="64" y="480" />
+		<entity schema="Default" name="blog_post_startups" color="f5ddbf" x="224" y="480" />
+		<entity schema="Default" name="blog_post_tags" color="f5ddbf" x="224" y="672" />
+		<entity schema="Default" name="django_admin_log" color="d2bff5" x="832" y="48" />
+		<entity schema="Default" name="django_content_type" color="c8f5bf" x="640" y="656" />
+		<entity schema="Default" name="django_migrations" color="bfbff5" x="240" y="48" />
+		<entity schema="Default" name="django_session" color="bfbff5" x="240" y="240" />
+		<entity schema="Default" name="organizer_newslink" color="bfbff5" x="48" y="48" />
+		<entity schema="Default" name="organizer_startup" color="d2bff5" x="656" y="48" />
+		<entity schema="Default" name="organizer_startup_tags" color="d2bff5" x="448" y="272" />
+		<entity schema="Default" name="organizer_tag" color="f5ddbf" x="64" y="672" />
+		<entity schema="Default" name="sqlite_sequence" color="bfbff5" x="48" y="240" />
+		<browser id="Browse_2b8e6aa" name="Sample Relational Data Browse" confirm_updates="y" >
+			<browse_table schema="Default" entity="auth_permission" x="10" y="10" width="400" height="300" >
+				<browse_table schema="Default" entity="django_content_type" fk="Fk_auth_permission" x="420" y="10" width="400" height="300" record_view="y" >
+					<browse_table schema="Default" entity="django_admin_log" fk="Fk_django_admin_log" x="830" y="10" width="400" height="300" />
+				</browse_table>
+			</browse_table>
+		</browser>
+	</layout>
+</project>

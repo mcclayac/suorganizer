@@ -1,0 +1,447 @@
+
+
+suorganizer
+
+
+
+./manage.py migrate
+
+
+$ ./manage.py startapp organizer
+$ ./manage.py startapp blog
+
+
+./manage.py startapp helloworld
+
+rm -r helloworld/
+
+
+$ ./manage.py check
+
+$ ./manage.py makemigrations organizer
+$ ./manage.py makemigrations blog
+
+
+(django1) Anthonys-MacBook-Pro:suorganizer anthonymcclay$ ./manage.py makemigrations organizer
+Migrations for 'organizer':
+  organizer/migrations/0001_initial.py
+    - Create model NewsLink
+    - Create model Startup
+    - Create model Tag
+    - Add field tags to startup
+    - Add field startup to newslink
+(django1) Anthonys-MacBook-Pro:suorganizer anthonymcclay$ ./manage.py makemigrations blog
+Migrations for 'blog':
+  blog/migrations/0001_initial.py
+    - Create model Post
+(django1) Anthonys-MacBook-Pro:suorganizer anthonymcclay$
+
+
+$ ./manage.py migrate
+jango1) Anthonys-MacBook-Pro:suorganizer anthonymcclay$ ./manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, blog, contenttypes, organizer, sessions
+Running migrations:
+  Applying organizer.0001_initial... OK
+  Applying blog.0001_initial... OK
+
+
+(django1) Anthonys-MacBook-Pro:suorganizer anthonymcclay$ ./manage.py shell
+Python 3.5.2 (v3.5.2:4def2a2901a5, Jun 26 2016, 10:47:25)
+[GCC 4.2.1 (Apple Inc. build 5666) (dot 3)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from datetime import date
+>>> from organizer.models import Tag, Startup, NewsLink
+>>> from blog.models import Post
+>>>
+
+
+from datetime import date
+from organizer.models import Tag, Startup, NewsLink
+from blog.models import Post
+
+
+
+
+>>> type(Tag.objects)
+<class 'django.db.models.manager.Manager'>
+>>> Tag.objects.create(name='Video Games', slug='video-games')
+<Tag: Video Games>
+>>>
+
+
+
+Tag.objects.bulk_create([
+
+>>> Tag.objects.bulk_create([
+... Tag(name='Django',slug='django'),
+... Tag(name='Web', slug='web'),
+... Tag(name='Mobile', slug='mobile'),
+... ])
+[<Tag: Django>, <Tag: Web>, <Tag: Mobile>]
+>>>
+
+
+
+Tag.objects.bulk_create([
+Tag(name='Django',slug='django'),
+Tag(name='Web', slug='web'),
+Tag(name='Mobile', slug='mobile'),
+])
+
+
+
+
+>>> Tag.objects.all()
+<QuerySet [<Tag: Django>, <Tag: Mobile>, <Tag: Video Games>, <Tag: Web>]>
+
+type(Tag.objects.all())
+Tag.objects.count()
+
+Tag.objects.get(slug='django')
+>>> type(Tag.objects.get(slug='django'))
+<class 'organizer.models.Tag'>
+
+
+>>> try:
+...     Tag.objects.get(slug='Django')
+... except Tag.DoesNotExist as e:
+...     print(e)
+...
+Tag matching query does not exist.
+>>>
+
+
+Tag.objects.get(slug--iexact='DJANGO')
+>>> Tag.objects.get(slug__contains='an')
+<Tag: Django>
+>>> Tag.objects.get(slug__istartswith='DJ')
+<Tag: Django>
+>>>
+
+
+>>> try:
+...     Tag.objects.get(slug__contains='o')
+... except Tag.MultipleObjectsReturned as e:
+...     print(e)
+...
+get() returned more than one Tag -- it returned 3!
+>>>
+
+>>> Tag.objects.filter(slug__contains='o')
+<QuerySet [<Tag: Django>, <Tag: Mobile>, <Tag: Video Games>]>
+>>>
+
+
+>>> Tag.objects.filter(slug__contains='o').order_by('-name')
+<QuerySet [<Tag: Video Games>, <Tag: Mobile>, <Tag: Django>]>
+>>>
+
+
+
+# WIth Tuples
+>>> Tag.objects.values_list()
+<QuerySet [(3, 'Django', 'django'), (5, 'Mobile', 'mobile'), (2, 'Video Games', 'video-games'), (4, 'Web', 'web')]>
+>>>
+
+
+>>> Tag.objects.values_list('name', flat=True)
+<QuerySet ['Django', 'Mobile', 'Video Games', 'Web']>
+
+
+
+jb = Startup.objects.create(
+    name='JamBon Software',
+    slug='jambon-software',
+    contact='django@jambonsw.com',
+    description='Web and Mobile Consulting.\n\n',
+    founded_date=date(2013, 1, 18),
+    website='https://jambonsw.com/',)
+
+jb = Startup.objects.create(
+    name='BigMAN Software',
+    slug='bigman-software',
+    contact='mrbigman@bigmansoftware.com',
+    description='Web and Mobile Consulting.\n\n',
+    founded_date=date(2013, 1, 18),
+    website='https://bigmansoftware.com/',)
+
+
+<Startup: BigMAN Software>
+>>> jb.founded_date
+datetime.date(2013, 1, 18)
+>>>
+
+
+djt = Post.objects.create(
+    title='Django Training',
+    slug='django-training',
+    text=(
+        "Learn Django in a classroom setting "
+        "with JamBon Software."),
+)
+
+djt = Post.objects.create(
+    title='BigMAN Training',
+    slug='bigman-training',
+    text=(
+        "Learn BigMAN in a classroom setting "
+        "with Tony Software."),
+)
+
+djt = Post.objects.create(
+    title='Tyanne Training',
+    slug='tyanne-training',
+    text=(
+        "Learn Tyanne in a classroom setting "
+        "with Tony Software."),
+)
+
+
+
+djt.pub_date = date(2013, 1, 18)
+djt.save()
+djt
+
+
+>>> type(djt.tags)
+<class 'django.db.models.fields.related_descriptors.create_forward_many_to_many_manager.<locals>.ManyRelatedManager'>
+>>> type(djt.startups)
+<class 'django.db.models.fields.related_descriptors.create_forward_many_to_many_manager.<locals>.ManyRelatedManager'>
+>>> djt.tags.all()
+<QuerySet []>
+>>> djt.startups.all()
+<QuerySet []>
+>>>
+
+
+
+django = Tag.objects.get(slug__contains='django')
+
+tagObject = Tag.objects.get(slug__contains='Mobile')
+
+
+>>> tagObject = Tag.objects.get(slug__contains='Mobile')
+>>> tagObject
+<Tag: Mobile>
+>>> djt
+<Post: Tyanne Training on 2017-06-18>
+>>> djt.tags.add(tagObject)
+
+
+
+BigMANPost = Post.objects.get(slug='bigman-training')
+
+
+>>> bigmanPost = Post.objects.get(slug='bigman-training')
+>>> bigmanPost
+<Post: BigMAN Training on 2017-06-18>
+
+
+
+
+Web
+webTag = Tag.objects.get(slug__contains='Web')
+
+
+
+>>>
+>>> tagObject = Tag.objects.get(slug__contains='Mobile')
+>>> tagObject
+<Tag: Mobile>
+>>> djt
+<Post: Tyanne Training on 2017-06-18>
+>>> djt.tags.add(tagObject)
+>>> BigMANPost = Post.objects.get(slug='bigman-training')
+>>> BigMANPost
+<Post: BigMAN Training on 2017-06-18>
+>>> bigmanPost = Post.objects.get(slug='bigman-training')
+>>> bigmanPost
+<Post: BigMAN Training on 2017-06-18>
+>>> webTag = Tag.objects.get(slug__contains='Web')
+>>> bigmanPost.tags.add(webTag)
+>>>
+
+
+
+for e in Entry.objects.all():
+    print(e.headline)
+
+
+
+querySet = Post.objects.all()
+querySet
+for e in querySet.all():
+    print(e)
+
+
+
+django = Tag.objects.get(slug__contains='django')
+django.startup_set.add(jb)  # a "reverse" relation
+django.startup_set.all()
+jb.tags.all()  # the "forward" relation
+
+
+>> for e in Tag.objects.values_list('name','slug').order_by('name'):
+...     print(e)
+...
+
+
+
+Tag.objects.create(name='andrew', slug='ZEBRA')
+
+
+
+                                                                 ^
+SyntaxError: invalid syntax
+>>> for e in Tag.objects.values_list('name','slug').order_by('name'):
+...     print(e)
+...
+
+
+
+>>> for tag in Tag.objects.all():
+...     tag.name = tag.name.lower()
+...     tag.save()
+...
+
+
+Tag.objects.values_list('name')
+
+
+for tag in Tag.objects.all():
+    tag.name = tag.name.upper()
+    tag.save()
+
+Tag.objects.values_list('name')
+
+for tag in Tag.objects.all():
+    tag.name = tag.name.lower()
+    tag.save()
+
+Tag.objects.values_list('name')
+
+Tag.objects.all()
+
+>>> Tag.objects.get(name--iexact='Andrew').delete()
+
+
+def homepage(request):
+    tag_list = Tag.objects.all()
+    output = ", ".join([tag.name for tag in tag_list])
+    return HttpResponse(output
+''
+
+
+from django.template import Template, Context
+
+template = Template('Hi, my name is {{ name }}.')
+context = Context({'name': 'Andrew'})
+template.render(context)
+
+template = Template(
+    '{{ ml.exclaim }}!\n'
+    'she said {{ ml.adverb }}\n'
+    'as she jumped into her convertible {{ ml.noun1 }}\n'
+    'and drove off with her {{ ml.noun2 }}.\n'
+)
+
+
+
+mad_lib = {
+    'exclaim':'Ouch',
+    'adverb':'dutifully',
+    'noun1':'boat',
+    'noun2':'pineapple',
+    }
+context = Context({'ml': mad_lib})
+template.render(context)
+
+from django.template import loader
+
+template = loader.get_template('organizer/tag_list.html')
+
+
+best_list = [
+    {'name': 'Pirates'},
+    {'name': 'Ninjas'},
+    {'name': 'Cowboys'},
+    ]
+
+best_dic = {
+    'name': 'Pirates',
+    'name': 'Ninjas',
+    'name': 'Cowboys',
+    }
+
+context = Context({'tag_list': best_list})
+template.render(context)
+
+
+context = Context({'tag_list': best_dic})
+
+
+from django.template import loader
+from django.template import Template, Context
+
+template = Template(
+    '{{ ml.exclaim }}!\n'
+    'she said {{ ml.adverb }}\n'
+    'as she jumped into her convertible {{ ml.noun1 }}\n'
+    'and drove off with her {{ ml.noun2 }}.\n'
+)
+
+mad_lib = {
+    'exclaim':'Ouch',
+    'adverb':'dutifully',
+    'noun1':'boat',
+    'noun2':'pineapple',
+    }
+context = Context({'ml': mad_lib})
+template.render(context)
+
+
+
+template = loader.get_template('organizer/tag_list.html')
+
+best_list = [
+    {'name': 'Pirates'},
+    {'name': 'Ninjas'},
+    {'name': 'Cowboys'},
+    ]
+
+context = Context({'tag_list': best_list})
+template.render(context)
+
+
+context = Context({'tag_list': mad_lib})
+template.render(context)
+
+adict = {'tag_list': mad_lib}
+
+
+from django.template.loader import render_to_string
+
+
+rendered = render_to_string('organizer/tag_list.html', {'foo': 'bar'})
+
+{'tag_list': mad_lib}
+
+
+
+best_list = [
+    {'name': 'Pirates'},
+    {'name': 'Ninjas'},
+    {'name': 'Cowboys'},
+    ]
+
+rendered = render_to_string('organizer/tag_list.html',{'tag_list': best_list})
+print(rendered)
+
+
+
+template = loader.get_template('organizer/tag_list.html')
+aRenderedObject = template.render({'tag_list': best_list})
+print(aRenderedObject)
+
