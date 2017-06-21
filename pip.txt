@@ -445,3 +445,58 @@ template = loader.get_template('organizer/tag_list.html')
 aRenderedObject = template.render({'tag_list': best_list})
 print(aRenderedObject)
 
+
+from blog.models import Post
+
+postObjects = Post.objects
+    .filter(pub--date--year=2014)
+    .filter(pub--date--month=11)
+    .get(slug--iexact='django-training')
+
+
+
+from django.core.urlresolvers import reverse
+reverse('organizer_tag_list')
+
+
+from django.template import Template, Context
+code = "{% url 'organizer_tag_list' %}"
+template = Template(code)
+template.render(Context())
+
+from django.core.urlresolvers import reverse
+reverse('organizer_tag_detail', args=['django'])
+
+reverse('organizer_tag_detail', kwargs={'slug': 'django'})
+
+
+
+code = "{% url 'organizer_tag_detail' 'web' %}"
+template = Template(code)
+template.render(Context())
+
+code = "{% url 'organizer_tag_detail' slug='web' %}"
+template = Template(code)
+template.render(Context())
+
+
+from django.core.urlresolvers import reverse
+from organizer.models import Tag
+django_tag = Tag.objects.get(slug__iexact='django')
+reverse('organizer_tag_detail',kwargs={'slug': django_tag.slug})
+
+
+
+from django.template import Template, Context
+from organizer.models import Tag
+django_tag = Tag.objects.get(slug__iexact='django')
+context = Context({'tag': django_tag})
+code = "{% url 'organizer_tag_detail' tag.slug %}"
+template = Template(code)
+template.render(context)
+
+from organizer.models import Tag
+django_tag = Tag.objects.get(slug--iexact='django')
+django_tag.get_absolute_url()
+
+{% url 'blog_post_detail'post.pub_date.year post.pub_date.month post.slug %}
